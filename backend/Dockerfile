@@ -1,18 +1,23 @@
-FROM eclipse-temurin:17-jdk-alpine as build
+FROM openjdk:17-slim as build
 WORKDIR /workspace/app
 
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+# Install curl for downloading Maven wrapper
+RUN apt-get update && apt-get install -y curl
 
-RUN ./mvnw install -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+# Copy Maven wrapper and POM
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
 
-FROM eclipse-temurin:17-jre-alpine
+# Download dependencies
+RUN ./mvnw dependency:go-offline
+
+# Copy source
+COPY src ./src
+
+# Build application
+RUN ./mvnw package -DskipTests
+
+FROM openjdk:17-slim
 VOLUME /tmp
-ARG DEPENDENCY=/workspace/app/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.redes.subnet.SubnetCalculatorApplication"] 
+COPY --from=build /workspace/app/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"] 
