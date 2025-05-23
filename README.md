@@ -31,6 +31,7 @@ subnet-calculator/
 - Node.js >= 14.0.0
 - Java JDK >= 17
 - Maven >= 3.6
+- Git
 
 ## Configuración del Entorno de Desarrollo
 
@@ -68,19 +69,49 @@ subnet-calculator/
    mvn spring-boot:run
    ```
 
-## Configuración de Azure DevOps
+## Control de Versiones
 
-1. Crear un nuevo proyecto en Azure DevOps
-2. Inicializar el repositorio Git local y conectar con Azure:
+Este proyecto usa Git para el control de versiones. Para comenzar a trabajar:
+
+1. Clonar el repositorio:
    ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin <URL_DEL_REPOSITORIO_AZURE>
-   git push -u origin main
+   git clone https://github.com/EloSanz/subnetting.git
+   cd subnet-calculator
    ```
 
-3. Configurar el pipeline en `azure-pipelines.yml`
+2. Crear una nueva rama para tus cambios:
+   ```bash
+   git checkout -b feature/nueva-caracteristica
+   ```
+
+3. Realizar cambios y confirmarlos:
+   ```bash
+   git add .
+   git commit -m "descripción de los cambios"
+   ```
+
+4. Subir los cambios:
+   ```bash
+   git push origin feature/nueva-caracteristica
+   ```
+
+### Convenciones de Commits
+
+Para mantener un historial de commits limpio y comprensible, seguimos estas convenciones:
+
+- `feat: ` para nuevas características
+- `fix: ` para correcciones de bugs
+- `docs: ` para cambios en la documentación
+- `style: ` para cambios que no afectan el código (formato, espacios, etc)
+- `refactor: ` para refactorización de código
+- `test: ` para añadir o modificar tests
+- `chore: ` para tareas de mantenimiento
+
+Ejemplo:
+```bash
+git commit -m "feat: añadir validación de máscara de red"
+git commit -m "fix: corregir cálculo de hosts disponibles"
+```
 
 ## Licencia
 
