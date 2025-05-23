@@ -142,4 +142,47 @@ MIT
    - Key: `VITE_API_URL`
    - Value: Your backend URL (e.g., https://subnet-calculator-api.onrender.com)
 
-The application will be available at your Render-provided URL. 
+The application will be available at your Render-provided URL.
+
+## Docker Deployment
+
+### Local Deployment with Docker Compose
+
+1. Build and run the containers:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Access the application:
+   - Frontend: http://localhost
+   - Backend API: http://localhost:8080
+
+### Cloud Deployment Options
+
+1. **DigitalOcean App Platform**
+   - Free tier available
+   - Easy deployment from GitHub
+   - Automatic HTTPS
+   - Instructions: https://docs.digitalocean.com/products/app-platform/
+
+2. **Google Cloud Run**
+   - Free tier: 2 million requests/month
+   - Pay per use
+   - Automatic scaling
+   - Instructions: https://cloud.google.com/run/docs/quickstarts/deploy-container
+
+3. **AWS Elastic Container Service (ECS) with Fargate**
+   - Free tier eligible
+   - Serverless container orchestration
+   - Instructions: https://aws.amazon.com/ecs/
+
+4. **Azure Container Apps**
+   - Free tier available
+   - Serverless container platform
+   - Instructions: https://learn.microsoft.com/en-us/azure/container-apps/
+
+Choose the platform based on your needs:
+- DigitalOcean: Simplest setup, good for small projects
+- Google Cloud Run: Best free tier, good for moderate traffic
+- AWS ECS: Most features, good for scaling
+- Azure: Good integration with other Microsoft services 

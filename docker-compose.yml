@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: subnet-calculator-api
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - subnet-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: subnet-calculator-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - subnet-network
+
+networks:
+  subnet-network:
+    driver: bridge 
