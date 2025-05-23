@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: subnet-calculator-api
+    env: java
+    buildCommand: ./mvnw clean install -DskipTests
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m" 

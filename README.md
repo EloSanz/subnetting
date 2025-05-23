@@ -116,3 +116,30 @@ git commit -m "fix: corregir cálculo de hosts disponibles"
 ## Licencia
 
 MIT 
+
+## Deployment
+
+### Backend (Render.com)
+
+1. Create a new Web Service in Render
+2. Connect your GitHub repository
+3. Use the following settings:
+   - Name: subnet-calculator-api
+   - Environment: Java
+   - Build Command: `./mvnw clean install -DskipTests`
+   - Start Command: `java -jar target/*.jar`
+   - Instance Type: Free
+
+### Frontend (Render.com)
+
+1. Create a new Static Site in Render
+2. Connect your GitHub repository
+3. Use the following settings:
+   - Name: subnet-calculator
+   - Build Command: `npm install && npm run build`
+   - Publish Directory: `dist`
+4. Add the following environment variable:
+   - Key: `VITE_API_URL`
+   - Value: Your backend URL (e.g., https://subnet-calculator-api.onrender.com)
+
+The application will be available at your Render-provided URL. 
