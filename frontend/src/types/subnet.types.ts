@@ -1,0 +1,32 @@
+export interface SubnetResult {
+    baseNetwork: string;
+    requiredHosts: number;
+    subnetNumber: number;
+    resultNetwork: string;
+    binaryRepresentation: string;
+    firstUsableAddress: string;
+    lastUsableAddress: string;
+    defaultGateway: string;
+    broadcast: string;
+    totalUsableHosts: number;
+    newMask: number;
+    binaryVisualization: {
+        octets: string[];
+        colors: string[];
+        baseMask: number;
+        newMask: number;
+    };
+}
+
+export interface ErrorResponse {
+    message: string;
+    code: string;
+    details: string;
+}
+
+export interface SubnetFormData {
+    ipAddress: string;
+    maskBits: string;
+    requiredHosts: number | '';
+    subnetNumber: number | '';
+} 
