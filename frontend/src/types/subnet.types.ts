@@ -1,3 +1,10 @@
+export interface BinaryVisualization {
+    octets: string[];
+    colors: string[];
+    baseMask: number;
+    newMask: number;
+}
+
 export interface SubnetResult {
     baseNetwork: string;
     requiredHosts: number;
@@ -11,12 +18,8 @@ export interface SubnetResult {
     totalUsableHosts: number;
     newMask: number;
     subnettingBits?: number;
-    binaryVisualization: {
-        octets: string[];
-        colors: string[];
-        baseMask: number;
-        newMask: number;
-    };
+    networkType?: string;
+    binaryVisualization?: BinaryVisualization;
 }
 
 export interface ErrorResponse {

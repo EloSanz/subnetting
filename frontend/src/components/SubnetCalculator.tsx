@@ -233,6 +233,14 @@ export default function SubnetCalculator() {
                                                 <Text weight="bold" style={{ color: isDarkTheme ? '#94a3b8' : 'inherit' }}>
                                                     Red resultante: {result.resultNetwork}
                                                 </Text>
+                                                {result.networkType && (
+                                                    <Text style={{ 
+                                                        color: isDarkTheme ? '#94a3b8' : 'inherit',
+                                                        fontStyle: 'italic'
+                                                    }}>
+                                                        {result.networkType}
+                                                    </Text>
+                                                )}
                                                 <Text style={{ color: isDarkTheme ? '#94a3b8' : 'inherit' }}>
                                                     Primera dirección utilizable: {result.firstUsableAddress}
                                                 </Text>
@@ -246,7 +254,11 @@ export default function SubnetCalculator() {
                                                     Broadcast: {result.broadcast}
                                                 </Text>
                                                 <Text style={{ color: isDarkTheme ? '#94a3b8' : 'inherit' }}>
-                                                    Hosts utilizables: {result.totalUsableHosts - 3} ({result.totalUsableHosts} direcciones totales - 1 dirección de subred - 1 dirección de broadcast - 1 dirección de gateway)
+                                                    Hosts utilizables: {result.totalUsableHosts - (result.broadcast === 'N/A' ? 0 : 3)} 
+                                                    {result.broadcast === 'N/A' 
+                                                        ? ' (2 direcciones utilizables para enlaces punto a punto)'
+                                                        : ` (${result.totalUsableHosts} direcciones totales - 1 dirección de subred - 1 dirección de broadcast - 1 dirección de gateway)`
+                                                    }
                                                 </Text>
                                             </Flex>
                                         </Box>
