@@ -7,7 +7,9 @@ export const useSubnetCalculator = () => {
         ipAddress: '',
         maskBits: '',
         requiredHosts: '',
-        subnetNumber: ''
+        subnetNumber: '',
+        subnettingBits: '',
+        useSubnettingBits: false
     });
     const [result, setResult] = useState<SubnetResult | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -41,11 +43,20 @@ export const useSubnetCalculator = () => {
         return null;
     };
 
-    const handleInputChange = (field: keyof SubnetFormData, value: string) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
+    const handleInputChange = (field: keyof SubnetFormData, value: string | boolean) => {
+        if (field === 'useSubnettingBits') {
+            setFormData(prev => ({
+                ...prev,
+                useSubnettingBits: value as boolean,
+                requiredHosts: value ? '' : prev.requiredHosts,
+                subnettingBits: value ? prev.subnettingBits : ''
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [field]: value
+            }));
+        }
     };
 
     const handleCalculate = async () => {
@@ -74,8 +85,13 @@ export const useSubnetCalculator = () => {
                 return;
             }
 
-            if (!formData.requiredHosts) {
+            if (!formData.useSubnettingBits && !formData.requiredHosts) {
                 setError('Por favor, ingresa la cantidad de hosts requeridos');
+                return;
+            }
+
+            if (formData.useSubnettingBits && !formData.subnettingBits) {
+                setError('Por favor, ingresa la cantidad de bits para subnetting');
                 return;
             }
 
@@ -87,8 +103,10 @@ export const useSubnetCalculator = () => {
             const baseNetwork = `${formData.ipAddress}/${formData.maskBits}`;
             const result = await calculateSubnet(
                 baseNetwork,
-                formData.requiredHosts as number,
-                formData.subnetNumber as number
+                formData.useSubnettingBits ? 2 : formData.requiredHosts as number,
+                formData.subnetNumber as number,
+                formData.useSubnettingBits,
+                formData.useSubnettingBits ? formData.subnettingBits as number : undefined
             );
             
             setResult(result);
@@ -102,7 +120,9 @@ export const useSubnetCalculator = () => {
         setFormData(prev => ({
             ...prev,
             requiredHosts: '',
-            subnetNumber: ''
+            subnetNumber: '',
+            subnettingBits: '',
+            useSubnettingBits: false
         }));
         setResult(null);
         setError(null);

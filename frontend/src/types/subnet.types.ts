@@ -10,6 +10,7 @@ export interface SubnetResult {
     broadcast: string;
     totalUsableHosts: number;
     newMask: number;
+    subnettingBits?: number;
     binaryVisualization: {
         octets: string[];
         colors: string[];
@@ -29,4 +30,6 @@ export interface SubnetFormData {
     maskBits: string;
     requiredHosts: number | '';
     subnetNumber: number | '';
+    subnettingBits: number | '';
+    useSubnettingBits: boolean;
 } 

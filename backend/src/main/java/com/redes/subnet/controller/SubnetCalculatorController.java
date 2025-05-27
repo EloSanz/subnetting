@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Pattern;
 @RestController
 @RequestMapping("/api/subnet")
 @Validated
+@CrossOrigin(origins = "*")
 public class SubnetCalculatorController {
 
     @Autowired
@@ -25,12 +26,19 @@ public class SubnetCalculatorController {
             @RequestParam @NotBlank @Pattern(regexp = "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/\\d{1,2}$", 
                 message = "El formato de red debe ser como: 192.168.1.0/24") String baseNetwork,
             @RequestParam @Min(value = 1, message = "El número de hosts debe ser mayor a 0") int requiredHosts,
-            @RequestParam @Min(value = 1, message = "El número de subred debe ser mayor a 0") int subnetNumber) {
+            @RequestParam @Min(value = 1, message = "El número de subred debe ser mayor a 0") int subnetNumber,
+            @RequestParam(required = false) @Min(value = 1, message = "El número de bits para subnetting debe ser mayor a 0") Integer subnettingBits) {
         
         try {
-            service.validateParametersWithDetail(baseNetwork, requiredHosts, subnetNumber);
-            SubnetCalculatorModel result = service.calculateSubnet(baseNetwork, requiredHosts, subnetNumber);
-            return ResponseEntity.ok(result);
+            if (subnettingBits != null) {
+                service.validateParametersWithDetail(baseNetwork, subnettingBits, subnetNumber, true);
+                SubnetCalculatorModel result = service.calculateSubnet(baseNetwork, subnettingBits, subnetNumber, true);
+                return ResponseEntity.ok(result);
+            } else {
+                service.validateParametersWithDetail(baseNetwork, requiredHosts, subnetNumber);
+                SubnetCalculatorModel result = service.calculateSubnet(baseNetwork, requiredHosts, subnetNumber);
+                return ResponseEntity.ok(result);
+            }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                 .body(new ErrorResponse(

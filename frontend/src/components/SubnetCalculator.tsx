@@ -107,6 +107,7 @@ export default function SubnetCalculator() {
                                                     placeholder="Hosts requeridos"
                                                     value={formData.requiredHosts}
                                                     onChange={(e) => handleInputChange('requiredHosts', e.target.value)}
+                                                    disabled={formData.useSubnettingBits}
                                                 />
                                             </TextField.Root>
                                         </Flex>
@@ -116,6 +117,53 @@ export default function SubnetCalculator() {
                                             width: '200px' 
                                         }}>Cantidad de hosts necesarios</Text>
                                     </Flex>
+
+                                    <Flex gap="1" align="center" style={{ maxWidth: '600px', marginTop: '8px', marginBottom: '8px' }}>
+                                        <Flex style={{ width: '350px', background: isDarkTheme ? '#2f3133' : '#e9ecef', padding: '8px', borderRadius: '4px' }}>
+                                            <label style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center',
+                                                marginRight: '16px',
+                                                color: isDarkTheme ? '#94a3b8' : '#666',
+                                                cursor: 'pointer',
+                                                userSelect: 'none'
+                                            }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={formData.useSubnettingBits}
+                                                    onChange={(e) => handleInputChange('useSubnettingBits', e.target.checked)}
+                                                    style={{ 
+                                                        marginRight: '8px',
+                                                        width: '16px',
+                                                        height: '16px'
+                                                    }}
+                                                />
+                                                Usar bits de subnetting
+                                            </label>
+                                        </Flex>
+                                    </Flex>
+
+                                    {formData.useSubnettingBits && (
+                                        <Flex gap="1" align="center" style={{ maxWidth: '600px', marginTop: '4px' }}>
+                                            <Flex style={{ width: '350px' }}>
+                                                <TextField.Root style={{ width: '100%' }}>
+                                                    <TextField.Input 
+                                                        type="number"
+                                                        placeholder="Bits para subnetting"
+                                                        value={formData.subnettingBits}
+                                                        onChange={(e) => handleInputChange('subnettingBits', e.target.value)}
+                                                        min="1"
+                                                        max="32"
+                                                    />
+                                                </TextField.Root>
+                                            </Flex>
+                                            <Text size="2" style={{ 
+                                                marginLeft: '8px', 
+                                                color: isDarkTheme ? '#94a3b8' : '#666',
+                                                width: '200px' 
+                                            }}>Cantidad de bits para subnetting</Text>
+                                        </Flex>
+                                    )}
                                     
                                     <Flex gap="1" align="center" style={{ maxWidth: '600px' }}>
                                         <Flex style={{ width: '350px' }}>

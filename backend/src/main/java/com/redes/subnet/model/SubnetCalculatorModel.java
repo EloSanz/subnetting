@@ -17,6 +17,8 @@ public class SubnetCalculatorModel {
     private String broadcast;
     private long totalUsableHosts;
     private int newMask;
+    private int subnettingBits;
+    private String networkType;
     private BinaryVisualization binaryVisualization;
 
     @Data
@@ -30,5 +32,25 @@ public class SubnetCalculatorModel {
             this.octets = new String[4];
             this.colors = new String[32];
         }
+    }
+
+    public String getBaseNetwork() {
+        return baseNetwork;
+    }
+
+    public void setDefaultGateway(String defaultGateway) {
+        this.defaultGateway = defaultGateway;
+    }
+
+    public String getNetworkType() {
+        return networkType;
+    }
+
+    public void setNetworkType(String networkType) {
+        this.networkType = networkType;
+    }
+
+    public BinaryVisualization getBinaryVisualization() {
+        return binaryVisualization;
     }
 } 
